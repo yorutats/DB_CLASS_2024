@@ -7,7 +7,7 @@ from numpy import identity, product
 from sqlalchemy import null
 from api.api import *
 from api.sql import *
-from bookstore.views.views import *
+from bookstore.views.store import *
 from backstage.views.analysis import *
 from backstage.views.manager import *
 from link import *
