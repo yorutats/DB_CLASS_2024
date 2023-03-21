@@ -71,9 +71,6 @@ def bookstore():
         price = data[2]
         category = data[3]
         description = data[4]
-        # image = data[5]
-        
-        # if image == None:
         image = 'sdg.jpg'
         
         product = {
@@ -85,7 +82,7 @@ def bookstore():
             '商品圖片': image
         }
 
-        return render_template('product.html', data = product)
+        return render_template('product.html', data = product, user=current_user.name)
     
     elif 'page' in request.args:
         page = int(request.args['page'])
@@ -149,7 +146,6 @@ def bookstore():
                 '商品編號': i[0],
                 '商品名稱': i[1],
                 '商品價格': i[2],
-                # '商品圖片': i[5]
             }
             if len(book_data) < 9:
                 book_data.append(book)

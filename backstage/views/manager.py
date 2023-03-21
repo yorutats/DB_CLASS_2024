@@ -37,10 +37,6 @@ def productManager():
             flash('failed')
         else:
             data = Product.get_product(pid)
-            # image = data[5]
-            # if(image != None):
-            #     os.remove(os.path.join(config(), image))
-                
             Product.delete_product(pid)
     
     elif 'edit' in request.values:
@@ -77,10 +73,6 @@ def add():
         price = request.values.get('price')
         category = request.values.get('category')
         description = request.values.get('description')
-        # file = request.files['file']
-        # filename = None
-        # filename = secure_filename(file.filename)
-        # file.save(os.path.join(config(), filename))
 
         if (len(name) < 1 or len(price) < 1):
             return redirect(url_for('manager.productManager'))
@@ -107,35 +99,6 @@ def edit():
             return redirect(url_for('bookstore'))
 
     if request.method == 'POST':
-
-        # new_file = request.files['file']
-        # pid = request.values.get('pid')
-        
-        # if new_file:
-        #     data = Product.get_product(pid)
-        #     image = data[5]
-        #     if image:
-        #         os.remove(os.path.join(config(), image))
-        #     filename = secure_filename(new_file.filename)
-        #     new_file.save(os.path.join(config(), filename))
-            
-        #     Product.update_product(
-        #         {
-        #         'name' : request.values.get('name'),
-        #         'price' : request.values.get('price'),
-        #         'category' : request.values.get('category'), 
-        #         'description' : request.values.get('description'),
-        #         'pid' : request.values.get('pid')
-        #         }
-        #     )
-        #     Product.update_image(
-        #         {
-        #         'filename' : filename,
-        #         'pid' : request.values.get('pid')
-        #         }
-        #     )
-        
-        # else:
         Product.update_product(
             {
             'name' : request.values.get('name'),
@@ -160,15 +123,13 @@ def show_info():
     price = data[2]
     category = data[3]
     description = data[4]
-    # image = data[5]
 
     product = {
         '商品編號': pid,
         '商品名稱': pname,
         '單價': price,
         '類別': category,
-        '商品敘述': description,
-        # '商品圖片': image
+        '商品敘述': description
     }
     return product
 

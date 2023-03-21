@@ -106,11 +106,6 @@ class Product():
         sql = 'UPDATE PRODUCT SET PNAME=:name, PRICE=:price, CATEGORY=:category, PDESC=:description WHERE PID=:pid'
         DB.execute_input(DB.prepare(sql), input)
         DB.commit()
-        
-    # def update_image(input):
-    #     sql = 'UPDATE PRODUCT SET PIC=:filename WHERE PID=:pid'
-    #     DB.execute_input(DB.prepare(sql), input)
-    #     DB.commit()
     
 class Record():
     def get_total_money(tno):
