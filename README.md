@@ -60,15 +60,15 @@ cx_Oracle.init_oracle_client()
 app.run(host='0.0.0.0')
 ```
 
-### 4. 啟動程式
-```python=
-python app.py
-```
-
-##### 匯入SQL
+### 4. 匯入SQL
 - 打開 ebook.sql
 - 將 SQL 檔裡面的 `GROUP19` 全部替換成 同學們自己的組別 ex: 第一組替換為 `GROUP1`
 - 接著複製到 Oracle 上做執行，就可以得到一樣的資料了
+
+### 5. 啟動程式
+```python=
+python app.py
+```
 
 ## 使用
 - 輸入http://localhost:15000/進入首頁。
