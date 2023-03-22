@@ -65,6 +65,11 @@ app.run(host='0.0.0.0')
 python app.py
 ```
 
+##### 匯入SQL
+- 打開 ebook.sql
+- 將 SQL 檔裡面的 `GROUP19` 全部替換成 同學們自己的組別 ex: 第一組替換為 `GROUP1`
+- 接著複製到 Oracle 上做執行，就可以得到一樣的資料了
+
 ## 使用
 - 輸入http://localhost:15000/進入首頁。
 - 首次使用請點選註冊按鈕，並註冊帳號。
