@@ -22,9 +22,10 @@
 git clone https://github.com/Text-Analytics-and-Retrieval/db_class2023.git
 cd db_class2023/
 ```
-### 2. 啟動Docker container
+### 2. 建立環境
 ```bash!	
-docker run --ipc=host -it -v $(pwd):/workspace -p 18080:8080 -p 15000:5000 --name=db_class2023 continuumio/anaconda3
+# <name> 請改為自訂的環境名稱
+conda create -n <name> python anaconda
 ```
 
 ### 3. 安裝環境
@@ -37,6 +38,7 @@ conda install -c anaconda libaio #Oracle Instant Client會用到
 
 ##### 安裝Oracle Instant Client
 ```bash
+# !!!! 切記要改為自己電腦作業系統的版本 !!!!
 # 下載Oracle Instant Client
 wget https://download.oracle.com/otn_software/linux/instantclient/219000/instantclient-basic-linux.x64-21.9.0.0.0dbru.zip
 # 下載解壓縮套件
