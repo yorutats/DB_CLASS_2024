@@ -31,31 +31,13 @@ conda create -n <name> python anaconda
 ### 3. 安裝環境
 ##### 安裝python套件
 ```bash
-cd workspace
+# <workspace> 請改為環境路徑
+cd <workspace>
 pip install -r requirements.txt
-conda install -c anaconda libaio #Oracle Instant Client會用到
 ```
 
-##### 安裝Oracle Instant Client
-```bash
-# !!!! 切記要改為自己電腦作業系統的版本 !!!!
-# 下載Oracle Instant Client
-wget https://download.oracle.com/otn_software/linux/instantclient/219000/instantclient-basic-linux.x64-21.9.0.0.0dbru.zip
-# 下載解壓縮套件
-apt-get update
-apt-get install unzip
-# 解壓縮檔案
-unzip instantclient-basic-linux.x64-21.9.0.0.0dbru.zip
-# 設定環境變數
-export LD_LIBRARY_PATH=/workspace/instantclient_21_9:$LD_LIBRARY_PATH
-```
 
 ##### 修改程式碼
-
-```python=
-# 移除link.py中的指令路徑
-cx_Oracle.init_oracle_client()
-```
 
 ```python=
 # 使Flask監聽所有介面
