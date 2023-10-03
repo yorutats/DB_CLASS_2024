@@ -40,6 +40,11 @@ pip install -r requirements.txt
 ##### 修改程式碼
 
 ```python=
+# 將link.py中的連線資訊（account、password）改為自己組別的帳密
+connection = oracledb.connect(user='account', password='password', host='140.117.69.60', port=1521, service_name='ORCLPDB1') 
+```
+
+```python=
 # 使Flask監聽所有介面
 app.run(host='0.0.0.0')
 ```
