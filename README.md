@@ -24,8 +24,8 @@ cd db_class2023/
 ```
 ### 2. 建立環境
 ```bash!	
-# <name> 請改為自訂的環境名稱
-conda create -n <name> python anaconda
+# <name> 請改為自訂的環境名稱，同學也可以自訂python 的版本，但要注意3.11版會有版本衝突的問題，不建議使用
+conda create -n <name> python=3.10
 ```
 
 ### 3. 安裝環境
