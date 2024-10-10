@@ -36,8 +36,7 @@ def bookstore():
         search = request.values.get('keyword')
         keyword = search
         
-        cursor.prepare('SELECT * FROM PRODUCT WHERE PNAME LIKE :search')
-        cursor.execute(None, {'search': '%' + keyword + '%'})
+        cursor.execute('SELECT * FROM PRODUCT WHERE PNAME LIKE %s', ('%' + search + '%',))
         book_row = cursor.fetchall()
         book_data = []
         final_data = []
@@ -114,8 +113,7 @@ def bookstore():
         single = 1
         search = request.values.get('keyword')
         keyword = search
-        cursor.prepare('SELECT * FROM PRODUCT WHERE PNAME LIKE :search')
-        cursor.execute(None, {'search': '%' + keyword + '%'})
+        cursor.execute('SELECT * FROM PRODUCT WHERE PNAME LIKE %s', ('%' + search + '%',))
         book_row = cursor.fetchall()
         book_data = []
         total = 0
@@ -156,51 +154,53 @@ def bookstore():
 @store.route('/cart', methods=['GET', 'POST'])
 @login_required # 使用者登入後才可以看
 def cart():
-
     # 以防管理者誤闖
     if request.method == 'GET':
-        if( current_user.role == 'manager'):
+        if (current_user.role == 'manager'):
             flash('No permission')
             return redirect(url_for('manager.home'))
 
     # 回傳有 pid 代表要 加商品
     if request.method == 'POST':
-        
-        if "pid" in request.form :
+        if "pid" in request.form:
             data = Cart.get_cart(current_user.id)
-            
-            if( data == None): #假如購物車裡面沒有他的資料
+
+            if data is None:  # 假如購物車裡面沒有他的資料
                 time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                Cart.add_cart(current_user.id, time) # 幫他加一台購物車
-                data = Cart.get_cart(current_user.id) 
-                
-            tno = data[2] # 取得交易編號
-            pid = request.values.get('pid') # 使用者想要購買的東西
+                Cart.add_cart(current_user.id, time)  # 幫他加一台購物車
+                data = Cart.get_cart(current_user.id)
+
+            tno = data[2]  # 取得交易編號
+            pid = request.form.get('pid')  # 使用者想要購買的東西，使用 `request.form.get()` 來避免 KeyError
+            if not pid:
+                flash('Product ID is missing.')
+                return redirect(url_for('bookstore.cart'))  # 返回購物車頁面並顯示錯誤信息
+
             # 檢查購物車裡面有沒有商品
             product = Record.check_product(pid, tno)
             # 取得商品價錢
             price = Product.get_product(pid)[2]
 
-            # 如果購物車裡面沒有的話 把他加一個進去
-            if(product == None):
-                Record.add_product( {'id': tno, 'tno':pid, 'price':price, 'total':price} )
+            # 如果購物車裡面沒有的話，把它加一個進去
+            if product is None:
+                Record.add_product({'pid': pid, 'tno': tno, 'saleprice': price, 'total': price})
             else:
-                # 假如購物車裡面有的話，就多加一個進去
+                # 如果購物車裡面有的話，就多加一個進去
                 amount = Record.get_amount(tno, pid)
-                total = (amount+1)*int(price)
-                Record.update_product({'amount':amount+1, 'tno':tno , 'pid':pid, 'total':total})
+                total = (amount + 1) * int(price)
+                Record.update_product({'amount': amount + 1, 'tno': tno, 'pid': pid, 'total': total})
 
-        elif "delete" in request.form :
-            pid = request.values.get('delete')
+        elif "delete" in request.form:
+            pid = request.form.get('delete')
             tno = Cart.get_cart(current_user.id)[2]
-            
+
             Member.delete_product(tno, pid)
             product_data = only_cart()
-        
+
         elif "user_edit" in request.form:
-            change_order()  
+            change_order()
             return redirect(url_for('bookstore.bookstore'))
-        
+
         elif "buy" in request.form:
             change_order()
             return redirect(url_for('bookstore.order'))
@@ -212,16 +212,17 @@ def cart():
 
             time = str(datetime.now().strftime('%Y/%m/%d %H:%M:%S'))
             format = 'yyyy/mm/dd hh24:mi:ss'
-            Order_List.add_order( {'mid': current_user.id, 'time':time, 'total':total, 'format':format, 'tno':tno} )
+            Order_List.add_order({'mid': current_user.id, 'ordertime': time, 'total': total, 'format': format, 'tno': tno})
 
             return render_template('complete.html', user=current_user.name)
 
     product_data = only_cart()
-    
+
     if product_data == 0:
         return render_template('empty.html', user=current_user.name)
     else:
         return render_template('cart.html', data=product_data, user=current_user.name)
+
 
 @store.route('/order')
 def order():
@@ -241,7 +242,8 @@ def order():
         }
         product_data.append(product)
     
-    total = Record.get_total(tno)[0]
+    total = float(Record.get_total(tno))  # 將 Decimal 轉換為 float
+
 
     return render_template('order.html', data=product_data, total=total, user=current_user.name)
 
@@ -299,12 +301,11 @@ def change_order():
 
 
 def only_cart():
-    
     count = Cart.check(current_user.id)
 
-    if(count == None):
+    if count is None:
         return 0
-    
+
     data = Cart.get_cart(current_user.id)
     tno = data[2]
     product_row = Record.get_record(tno)
@@ -315,7 +316,7 @@ def only_cart():
         pname = Product.get_name(i[1])
         price = i[3]
         amount = i[2]
-        
+
         product = {
             '商品編號': pid,
             '商品名稱': pname,
@@ -323,5 +324,5 @@ def only_cart():
             '數量': amount
         }
         product_data.append(product)
-    
+
     return product_data

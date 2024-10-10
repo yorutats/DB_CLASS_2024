@@ -69,20 +69,31 @@ def add():
             pid = en + number
             data = Product.get_product(pid)
 
-        name = request.values.get('name')
+        pname = request.values.get('pname')
         price = request.values.get('price')
         category = request.values.get('category')
-        description = request.values.get('description')
+        pdesc = request.values.get('description')
 
-        if (len(name) < 1 or len(price) < 1):
+        # 檢查是否正確獲取到所有欄位的數據
+        if pname is None or price is None or category is None or pdesc is None:
+            flash('所有欄位都是必填的，請確認輸入內容。')
+            return redirect(url_for('manager.productManager'))
+
+        # 檢查欄位的長度
+        if len(pname) < 1 or len(price) < 1:
+            flash('商品名稱或價格不可為空。')
+            return redirect(url_for('manager.productManager'))
+
+
+        if (len(pname) < 1 or len(price) < 1):
             return redirect(url_for('manager.productManager'))
         
         Product.add_product(
             {'pid' : pid,
-             'name' : name,
+             'pname' : pname,
              'price' : price,
              'category' : category,
-             'description':description
+             'pdesc':pdesc
             }
         )
 
@@ -101,10 +112,10 @@ def edit():
     if request.method == 'POST':
         Product.update_product(
             {
-            'name' : request.values.get('name'),
+            'pname' : request.values.get('pname'),
             'price' : request.values.get('price'),
             'category' : request.values.get('category'), 
-            'description' : request.values.get('description'),
+            'pdesc' : request.values.get('description'),
             'pid' : request.values.get('pid')
             }
         )
