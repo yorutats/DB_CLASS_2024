@@ -40,10 +40,10 @@ pip install -r requirements.txt
 ##### 修改程式碼
 
 ```python=
-# 將link.py中的連線資訊（account、password、dbname）改為自己組別的帳密
+# 將link.py中的連線資訊（account、password、dbname）改為自己組別的帳密及資料庫名稱
 connection = psycopg2.connect( user='your_account', password='password', host='140.117.68.66', port='5432', dbname='DB_name'  # PostgreSQL 的資料庫名稱)
 
-# 將api資料夾內的sql.py 其中的class DB 修改為自己組別的帳密及組別名稱
+# 將api資料夾內的sql.py 其中的class DB 修改為自己組別的帳密及資料庫名稱
 connection_pool = pool.SimpleConnectionPool(
         1, 100,  # 最小和最大連線數
         user='your account',
