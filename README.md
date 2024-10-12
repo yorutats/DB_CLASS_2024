@@ -69,6 +69,7 @@ python app.py
 ```
 
 ## 使用
-- 輸入點選running on後面的網址，進入首頁。
+- 輸入點選running on後面的網址，進入首頁。![2024-10-12 13-30-04 的螢幕擷圖](https://github.com/user-attachments/assets/da1cb799-b40d-4604-8035-10294bf8867c)
+
 - 首次使用請點選註冊按鈕，並註冊帳號。
 - 註冊後，點選登入即可進入頁面。
