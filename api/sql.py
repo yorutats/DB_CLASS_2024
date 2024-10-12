@@ -5,12 +5,12 @@ from psycopg2 import pool
 
 class DB:
     connection_pool = pool.SimpleConnectionPool(
-        1, 20,  # 最小和最大連線數
-        user='db_ta',
-        password='nsysu@3024',
+        1, 100,  # 最小和最大連線數
+        user='your account',
+        password='password',
         host='140.117.68.66',
         port='5432',
-        dbname='postgres'
+        dbname='DB_name'
     )
 
     @staticmethod
