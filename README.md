@@ -2,7 +2,7 @@
 [![GitHub release](https://img.shields.io/github/release/Text-Analytics-and-Retrieval/db_class2023)](https://github.com/Text-Analytics-and-Retrieval/db_class2023/releases/latest)
 [![GitHub license](https://img.shields.io/github/license/Text-Analytics-and-Retrieval/db_class2023)](https://github.com/Text-Analytics-and-Retrieval/db_class2023/main/LICENSE)
 
-一套使用Flask開發的網路書店系統，後端使用Oracle資料庫
+一套使用Flask開發的網路書店系統，後端使用Postgres資料庫
 <br>
 
 ## 功能
@@ -40,8 +40,18 @@ pip install -r requirements.txt
 ##### 修改程式碼
 
 ```python=
-# 將link.py中的連線資訊（account、password）改為自己組別的帳密
-connection = oracledb.connect(user='account', password='password', host='140.117.69.60', port=1521, service_name='ORCLPDB1') 
+# 將link.py中的連線資訊（account、password、dbname）改為自己組別的帳密及資料庫名稱
+connection = psycopg2.connect( user='your_account', password='password', host='140.117.68.66', port='5432', dbname='DB_name'  # PostgreSQL 的資料庫名稱)
+
+# 將api資料夾內的sql.py 其中的class DB 修改為自己組別的帳密及資料庫名稱
+connection_pool = pool.SimpleConnectionPool(
+        1, 100,  # 最小和最大連線數
+        user='your account',
+        password='password',
+        host='140.117.68.66',
+        port='5432',
+        dbname='DB_name'
+    )
 ```
 
 ```python=
@@ -51,15 +61,16 @@ app.run(host='0.0.0.0')
 
 ### 4. 匯入SQL
 - 打開 ebook.sql
-- 將 SQL 檔裡面的 `GROUP19` 全部替換成 同學們自己的組別 ex: 第一組替換為 `GROUP1`
-- 接著複製到 Oracle 上做執行，就可以得到一樣的資料了
+- 將 SQL 檔裡面的程式碼 貼到 自己組別的資料庫內執行(在自己組別的資料庫點右鍵選Query Tool)並執行
 
 ### 5. 啟動程式
 ```python=
 python app.py
+倘若遇到 OSError: [Errno 98] Address already in use  像這樣的錯誤代表有重複執行的問題
+請輸入 lsof -i :5000 查看是哪個PID使用中，並再輸入kill -9 <該執行中的PID> 刪除
 ```
 
 ## 使用
-- 輸入http://localhost:15000/進入首頁。
+- 輸入點選running on後面的網址，進入首頁。![2024-10-12 13-30-04 的螢幕擷圖](https://github.com/user-attachments/assets/da1cb799-b40d-4604-8035-10294bf8867c)
 - 首次使用請點選註冊按鈕，並註冊帳號。
 - 註冊後，點選登入即可進入頁面。
