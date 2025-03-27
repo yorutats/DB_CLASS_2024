@@ -8,15 +8,17 @@
 {% block content%}
 <div class="btn_div">
   <h1 class="book_title left">31 Lab Book Store</h1>
-  <a href="{{ url_for('analysis.dashboard') }}"  title="資料分析"><img class="cart" src="{{ url_for('static', filename='./img/dashboard.png') }}"></a>
-  <a href="{{ url_for('logout') }}"  title="登出"><img class="logout" src="{{ url_for('static', filename='./img/logout.png') }}"></a>
+  <a href="{{ url_for('analysis.dashboard') }}" title="資料分析"><img class="cart"
+      src="{{ url_for('static', filename='./img/dashboard.png') }}"></a>
+  <a href="{{ url_for('logout') }}" title="登出"><img class="logout"
+      src="{{ url_for('static', filename='./img/logout.png') }}"></a>
 </div>
 <div class="btn_div">
   <p class="welcome">歡迎 , 管理者：{{user}}</p>
 </div>
 {% with messages = get_flashed_messages() %}
 {% if messages[0] == 'No permission' %}
-  
+
 <script language="javascript">
 
   alert('您沒有使用者的權限喔！');
@@ -28,7 +30,7 @@
 
 {% with messages = get_flashed_messages() %}
 {% if messages[0] == 'faild' %}
-  
+
 <script language="javascript">
 
   alert('有使用者有使用到這筆資料，所以不能刪除');
@@ -39,7 +41,7 @@
 {% endwith %}
 
 <div class="book_table">
-  <form method='post' action={{ url_for('manager') }} >
+  <form method='post' action={{ url_for('manager') }}>
     <table cellpadding="10" border='3'>
       <tr>
         <th>商品編號</th>
@@ -60,17 +62,18 @@
           </button>
         </td>
         <td>
-          <button type="submit" value="{{book.商品編號}}" name="delete" onclick="return (confirm('你確定要刪除 \'{{ book.商品名稱 }}\' 嗎？'))">
+          <button type="submit" value="{{book.商品編號}}" name="delete"
+            onclick="return (confirm('你確定要刪除 \'{{ book.商品名稱 }}\' 嗎？'))">
             刪除
           </button>
         </td>
       </tr>
       {% endfor %}
     </table>
-      <div class="book_table">
-        <a href={{ url_for('add')}}><button value="new" name="new" type="button"> 上架新商品</button></a>
-      </div>
-    </form>
+    <div class="book_table">
+      <a href={{ url_for('add')}}><button value="new" name="new" type="button"> 上架新商品</button></a>
+    </div>
+  </form>
 
 </div>
 

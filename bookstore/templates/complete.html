@@ -9,15 +9,28 @@
 
 {% with messages = get_flashed_messages() %}
 {% if messages[0] == 'No permission' %}
-  
+
 <script language="javascript">
   alert('您沒有使用者的權限喔！');
 </script>
+<style>
+  .btn-outline-success {
+    border-color: #5f5b4d;
+    color: #333025;
+    /* 確保文字顏色為白色 */
+  }
+
+  .btn-outline-success:hover {
+    background-color: #333025;
+    /* 深綠色 */
+    border-color: #333025;
+  }
+</style>
 
 {% endif %}
 {% endwith %}
 
-<br/>
+<br />
 
 <div class="container-xxl">
   <center>
@@ -27,16 +40,16 @@
     <h4>下單完成！</h4>
   </center>
   <center>
-    
-      <a href="{{ url_for('bookstore.bookstore') }}">
-        <button class="btn btn-outline-success" style="width:30%;">
-          回書店
-        </button>
-      </a>
-      
+
+    <a href="{{ url_for('bookstore.bookstore') }}">
+      <button class="btn btn-outline-success" style="width:30%;">
+        繼續購物
+      </button>
+    </a>
+
   </center>
-  
-  
+
+
 </div>
 
 {% endblock content%}

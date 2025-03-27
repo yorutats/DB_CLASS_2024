@@ -1,26 +1,83 @@
 {% extends "frontstage.html" %}
 {% block head %}
 {{ super() }}
+
+<link rel="stylesheet" href="../../static/css/navbar.css" />
 {% endblock head %}
 
 {% block title %}BookStore{% endblock title%}
 
 {% block content%}
-<br/>
+<style>
+  body {
+    background-color: #ecf0f1;
+    font-family: "Courier New", "DFKai-SB", Courier, monospace;
+  }
+
+  .btn-primary {
+    background-color: #326281;
+    /* 自定義的藍色 */
+    border-color: #326281;
+    color: #fff;
+    /* 確保文字顏色為白色 */
+  }
+
+  .btn-primary {
+    background-color: #276188;
+    /* 深藍色 */
+    border-color: #276188;
+  }
+
+
+  .btn-primary:hover {
+    background-color: #25506d;
+    /* 深藍色 */
+    border-color: #25506d;
+  }
+
+  .btn-success {
+    background-color: #5f5b4d;
+    /* 自定義的綠色 */
+    border-color: #5f5b4d;
+    color: #fff;
+    /* 確保文字顏色為白色 */
+  }
+
+  .btn-success:hover {
+    background-color: #333025;
+    /* 深綠色 */
+    border-color: #333025;
+  }
+</style>
+<br />
 <div class="container-xl">
   <form method="post" action={{ url_for('bookstore.cart') }}>
     <table class="table table-bordered">
       <tr>
-        <th><center>商品編號</center></th>
-        <th><center>商品名稱</center></th>
-        <th><center>商品價格</center></th>
-        <th><center>數量</center></th>
+        <th>
+          <center>商品編號</center>
+        </th>
+        <th>
+          <center>商品名稱</center>
+        </th>
+        <th>
+          <center>商品價格</center>
+        </th>
+        <th>
+          <center>數量</center>
+        </th>
       </tr>
       {% for book in data %}
       <tr>
-        <td> <center>{{ book.商品編號 }}</center></td>
-        <td> <center>{{ book.商品名稱 }}</center></td>
-        <td> <center>{{ book.商品價格 }}</center></td>
+        <td>
+          <center>{{ book.商品編號 }}</center>
+        </td>
+        <td>
+          <center>{{ book.商品名稱 }}</center>
+        </td>
+        <td>
+          <center>{{ book.商品價格 }}</center>
+        </td>
         <td width="20%">
           <center>
             {{ book.數量 }}
@@ -30,12 +87,12 @@
       {% endfor %}
     </table>
     <div class="col align-self-end">
-      
+
     </div>
     <div class="container-xxl" style="text-align: right;">
       <div class="row">
         <div class="col align-self-start">
- 
+
         </div>
         <div class="col align-self-center">
 
@@ -46,12 +103,12 @@
       </div>
     </div>
 
-    
-    <center> 
+
+    <center>
       <div class="option">
-        <a href="{{ url_for('bookstore.cart') }}"><button class="btn btn-primary" type="submit" >回購物車</button></a>
+        <a href="{{ url_for('bookstore.cart') }}"><button class="btn btn-primary" type="submit">回購物車</button></a>
         <button class="btn btn-success" type="submit" value="order" name="order">下訂單</button>
-    </div>
+      </div>
     </center>
 
   </form>

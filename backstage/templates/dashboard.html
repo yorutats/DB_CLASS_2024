@@ -4,47 +4,80 @@
 {% endblock head %}
 {% block title %}後台資料分析{% endblock title%}
 {% block content %}
+<style>
+  html,
+  body {
+    height: auto;
+    overflow: auto;
+    background-color: #ecf0f1;
+  }
 
-<div class="my-3 p-3 bg-body rounded shadow-sm">
+  .container-fluid-from {
+    width: 40em;
+    height: 30em;
+    padding-top: 4%;
+  }
+
+  .dashboard {
+    margin-top: 4em;
+    margin-bottom: 4em;
+    background-color: white;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-radius: 15px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  }
+</style>
+<div class="dashboard">
   <!-- Dashboard -->
   <div id="dashboard">
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">訂單數量分析</button>
-        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">書本銷量分類</button>
-        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">消費總額排名</button>        
-      </div>      
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button"
+          role="tab" aria-controls="nav-home" aria-selected="true">訂單數量分析</button>
+        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
+          role="tab" aria-controls="nav-profile" aria-selected="false">書本銷量分類</button>
+        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button"
+          role="tab" aria-controls="nav-contact" aria-selected="false">消費總額排名</button>
+      </div>
     </nav>
   </div>
-  <br/>
+  <br />
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-      <center> 
-        <div id="maina" class="container-fluid" style="width:1200px;height:500px"></div>
+      <center>
+        <div id="maina" class="container-fluid-from"></div>
       </center>
     </div>
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
       <center>
-        <div id="mainb" class="container-fluid" style="width: 600px;height:500px"></div>
+        <div id="mainb" class="container-fluid-from"></div>
       </center>
     </div>
     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
       <center>
-        <div id="mainc" class="container-fluid" style="width: 1200px;height:500px"></div>
+        <div id="mainc" class="container-fluid-from"></div>
       </center>
     </div>
   </div>
 </div>
 
+
 <script>
   // 以長條圖與折線圖分析各月訂單
   var chartDoma = document.getElementById('maina');
   var myCharta = echarts.init(chartDoma);
-  var data = {{revenue|tojson}};
-  var count = {{dataa|tojson}};
+  var data = {{ revenue| tojson}};
+  var count = {{ dataa| tojson}};
+  var colors = ['#cae2e3', '#2d6778', '#f6caa3', '#ac9a97', '#9fb1b0', '#6d7f88', '#dad2bf', '#e1af94', '#f8e3cb'];
   var optiona = {
+    color: colors,
+    textStyle: {
+      fontFamily: "DFKai-SB",
+      fontSize: 14,
+    },
     title: {
-      text: '各月訂單數量分析'
+      text: '各月訂單數量分析',
     },
     tooltip: {},
     legend: {
@@ -62,12 +95,12 @@
       data: data,
       markPoint: {
         data: [
-          {type: 'max', name: '銷量最高月份'},
-          {type: 'min', name: '銷量最低月份'}
+          { type: 'max', name: '銷量最高月份' },
+          { type: 'min', name: '銷量最低月份' }
         ]
       },
       label: {
-        show: true,
+        show: false,
         position: 'top',
         textStyle: {
           fontSize: 15
@@ -83,8 +116,13 @@
   // 以圓餅圖分析書本銷量
   var chartDomb = document.getElementById('mainb');
   var myChartb = echarts.init(chartDomb);
-  var data = {{datab|tojson}};
+  var data = {{ datab| tojson}};
   var optionb = {
+    color: colors,
+    textStyle: {
+      fontFamily: "DFKai-SB",
+      fontSize: 14,
+    },
     title: {
       text: '各類商品銷量分析',
       left: 'center',
@@ -99,7 +137,7 @@
     series: [
       {
         type: 'pie',
-        data: data,          
+        data: data,
         radius: ['40%', '70%']
       }
     ]
@@ -108,11 +146,16 @@
   // 使用動態長條圖查看消費總額最多的使用者
   var chartDomc = document.getElementById('mainc');
   var myChartc = echarts.init(chartDomc);
-  var data = {{datac|tojson}};
-  var nameList = {{nameList|tojson}};
+  var data = {{ datac| tojson}};
+  var nameList = {{ nameList| tojson}};
   // var counter = {{counter|tojson}};
-  var countList = {{countList|tojson}};
+  var countList = {{ countList| tojson}};
   var optionc = {
+    color: colors,
+    textStyle: {
+      fontFamily: "DFKai-SB",
+      fontSize: 14,
+    },
     title: {
       text: '使用者消費排名'
     },
@@ -151,7 +194,7 @@
           valueAnimation: true
         }
       }
-      ],
+    ],
     legend: {
       show: true
     },
@@ -172,18 +215,18 @@
     });
   }
 
-  setTimeout(function() {
+  setTimeout(function () {
     run();
   }, 0);
-        
-  setInterval(function() {
+
+  setInterval(function () {
     update();
   }, 3000);
 
   optiona && myCharta.setOption(optiona);
   optionb && myChartb.setOption(optionb);
   optionc && myChartc.setOption(optionc);
-      
+
 </script>
 
 {% endblock content %}

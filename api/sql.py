@@ -1,16 +1,26 @@
 from typing import Optional
 import psycopg2
 from psycopg2 import pool
+import os
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
+from flask import flash
+
+DB_USER = os.getenv('USER')
+DB_HOST = os.getenv('HOST')
+DB_PORT = os.getenv('PORT')
+DB_PASSWORD = os.getenv('PASSWORD')
+DB_NAME = os.getenv('DB')
 
 
 class DB:
     connection_pool = pool.SimpleConnectionPool(
         1, 100,  # 最小和最大連線數
-        user='your_account',
-        password='password',
-        host='140.117.68.66',
-        port='5432',
-        dbname='DB_name'
+        user=DB_USER,
+        password=DB_PASSWORD,
+        host=DB_HOST,
+        port= DB_PORT,
+        dbname=DB_NAME
     )
 
     @staticmethod
@@ -87,11 +97,21 @@ class Member:
     def get_all_account():
         sql = "SELECT account FROM member"
         return DB.fetchall(sql)
+    
+    @staticmethod
+    def get_all_mid():
+        sql = "SELECT MID FROM member"
+        return DB.fetchall(sql)
+    
+    @staticmethod
+    def get_all_username():
+        sql = "SELECT name FROM member"
+        return DB.fetchall(sql)
 
     @staticmethod
     def create_member(input_data):
-        sql = 'INSERT INTO member (name, account, password, identity) VALUES (%s, %s, %s, %s)'
-        DB.execute_input(sql, (input_data['name'], input_data['account'], input_data['password'], input_data['identity']))
+        sql = 'INSERT INTO member (MID, name, account, password, identity) VALUES (%s, %s, %s, %s, %s)'
+        DB.execute_input(sql, (input_data['mid'], input_data['name'], input_data['account'], input_data['password'], input_data['identity']))
 
     @staticmethod
     def delete_product(tno, pid):
@@ -132,42 +152,116 @@ class Cart:
         sql = 'DELETE FROM cart WHERE mid = %s'
         DB.execute_input(sql, (user_id,))
 
+class Customer:
+    @staticmethod
+    def add_customer(mid, userName, userPhone):
+        sql = 'INSERT INTO customer (cId, cName, phone) VALUES (%s, %s, %s)'
+        DB.execute_input(sql, (
+            mid,
+            userName, 
+            userPhone,
+        ))
+    
+    @staticmethod
+    def get_all_customer():
+        sql = 'SELECT * FROM customer'
+        try:
+            return DB.fetchall(sql)
+        except:
+            return "error"
+    
+    @staticmethod
+    def delete_customer(cid):
+        sql = 'DELETE FROM customer WHERE cId = %s'
+        try:
+            DB.execute_input(sql, (cid,))
+        except:
+            return "error"
 
-class Product:
+    @staticmethod
+    def get_order(cid):
+        sql = 'SELECT * FROM "order" WHERE cid = %s ORDER BY ordertime DESC'
+        return DB.fetchall(sql, (cid,))
+        
+class Supplier:
+    @staticmethod
+    def get_supplier(sId):
+        sql = 'SELECT * FROM Supplier WHERE sId = %s'
+        return DB.fetchone(sql, (sId,))
+    
+    @staticmethod
+    def get_all_supplier():
+        print("show")
+        sql = 'SELECT * FROM supplier'
+        return DB.fetchall(sql)
+    
+    @staticmethod
+    def add_supplier(input_data):
+        print("hihihihi")
+        sql = 'INSERT INTO supplier (sId, sName, phone, rating) VALUES (%s, %s, %s, %s)'
+        DB.execute_input(sql, (
+            input_data['sId'],
+            input_data['sName'], 
+            input_data['phone'],
+            input_data['rating'],
+        ))
+        
+    @staticmethod
+    def update_supplier(input_data):
+        sql = 'UPDATE supplier SET sId = %s, sName = %s, phone = %s, rating = %s WHERE sId = %s'
+        DB.execute_input(sql, (input_data['sId'], input_data['sName'], input_data['phone'], input_data['rating'], input_data['sId']))
+                
+    @staticmethod
+    def delete_supplier(sid):
+        sql = 'DELETE FROM supplier WHERE sId = %s'
+        try:
+            DB.execute_input(sql, (sid,))
+        except:
+            return "error"
+
+class Bird:
     @staticmethod
     def count():
-        sql = 'SELECT COUNT(*) FROM product'
+        sql = 'SELECT COUNT(*) FROM bird'
         return DB.fetchone(sql)
 
     @staticmethod
-    def get_product(pid):
-        sql = 'SELECT * FROM product WHERE pid = %s'
-        return DB.fetchone(sql, (pid,))
+    def get_product(bid):
+        sql = 'SELECT * FROM bird WHERE bid = %s'
+        return DB.fetchone(sql, (bid,))
 
     @staticmethod
     def get_all_product():
-        sql = 'SELECT * FROM product'
+        sql = 'SELECT * FROM bird'
         return DB.fetchall(sql)
 
     @staticmethod
-    def get_name(pid):
-        sql = 'SELECT pname FROM product WHERE pid = %s'
-        return DB.fetchone(sql, (pid,))[0]
+    def get_species(bid):
+        sql = 'SELECT species FROM bird WHERE bid = %s'
+        return DB.fetchone(sql, (bid,))[0]
 
     @staticmethod
-    def add_product(input_data):
-        sql = 'INSERT INTO product (pid, pname, price, category, pdesc) VALUES (%s, %s, %s, %s, %s)'
-        DB.execute_input(sql, (input_data['pid'], input_data['pname'], input_data['price'], input_data['category'], input_data['pdesc']))
+    def add_bird(input_data):
+        sql = 'INSERT INTO bird (bId, sId, gId, bDesc, species, price, stock) VALUES (%s, %s, %s, %s, %s, %s, %s)'
+        DB.execute_input(sql, (
+            input_data['bId'],
+            input_data['sId'], 
+            input_data['gId'],
+            input_data['bDesc'],
+            input_data['species'],
+            input_data['price'],
+            input_data['stock']
+        ))
+        
+    @staticmethod
+    def delete_bird(bid):
+        sql = 'DELETE FROM bird WHERE bid = %s'
+        DB.execute_input(sql, (bid,))
 
     @staticmethod
-    def delete_product(pid):
-        sql = 'DELETE FROM product WHERE pid = %s'
-        DB.execute_input(sql, (pid,))
-
-    @staticmethod
-    def update_product(input_data):
-        sql = 'UPDATE product SET pname = %s, price = %s, category = %s, pdesc = %s WHERE pid = %s'
-        DB.execute_input(sql, (input_data['pname'], input_data['price'], input_data['category'], input_data['pdesc'], input_data['pid']))
+    def update_bird(input_data):
+        sql = 'UPDATE bird SET sId = %s, gId = %s, bDesc = %s, species = %s, price = %s, stock = %s WHERE bid = %s'
+        DB.execute_input(sql, (input_data['sId'], input_data['gId'], input_data['bDesc'], input_data['species'], input_data['price'], input_data['stock'], input_data['bid']))
 
 
 class Record:
@@ -188,7 +282,9 @@ class Record:
 
     @staticmethod
     def add_product(input_data):
+        print("22")
         sql = 'INSERT INTO record (pid, tno, amount, saleprice, total) VALUES (%s, %s, 1, %s, %s)'
+        print(sql)
         DB.execute_input(sql, (input_data['pid'], input_data['tno'], input_data['saleprice'], input_data['total']))
 
     @staticmethod
@@ -217,29 +313,41 @@ class Record:
         return DB.fetchone(sql, (tno,))[0]
 
 
-class Order_List:
+class Order:
     @staticmethod
     def add_order(input_data):
-        sql = 'INSERT INTO order_list (oid, mid, ordertime, price, tno) VALUES (DEFAULT, %s, TO_TIMESTAMP(%s, %s), %s, %s)'
-        DB.execute_input(sql, (input_data['mid'], input_data['ordertime'], input_data['format'], input_data['total'], input_data['tno']))
+        sql = 'INSERT INTO "order" (cid, ordertime, totalAmount) VALUES (%s, TO_TIMESTAMP(%s, \'YYYY-MM-DD HH24:MI:SS\'), %s)'
+        DB.execute_input(sql, (input_data['cid'], input_data['ordertime'], input_data['totalAmount']))
 
     @staticmethod
     def get_order():
         sql = '''
-            SELECT o.oid, m.name, o.price, o.ordertime
-            FROM order_list o
-            NATURAL JOIN member m
-            ORDER BY o.ordertime DESC
+            SELECT 
+                o.cId, 
+                c.cName,
+                o.totalAmount, 
+                o.orderTime
+            FROM "order" o
+            JOIN Customer c 
+                ON o.cId = c.cId
+            ORDER BY o.orderTime DESC
         '''
         return DB.fetchall(sql)
 
     @staticmethod
     def get_orderdetail():
         sql = '''
-        SELECT o.oid, p.pname, r.saleprice, r.amount
-        FROM order_list o
-        JOIN record r ON o.tno = r.tno -- 確保兩者都是 bigint 類型
-        JOIN product p ON r.pid = p.pid
+        SELECT 
+            o.cId, 
+            o.orderTime, 
+            b.species, 
+            r.subAmount, 
+            r.rNum
+        FROM "order" o
+        JOIN record r 
+            ON o.cId = r.cId AND o.orderTime = r.orderTime
+        JOIN bird b 
+            ON r.bId = b.bId
         '''
         return DB.fetchall(sql)
 

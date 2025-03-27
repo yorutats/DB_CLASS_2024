@@ -1,0 +1,462 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap");
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+html,
+body {
+  height: auto;
+  min-height: 100%; /* 確保內容可以擴展頁面 */
+  overflow: auto;
+  scroll-behavior: smooth;
+  line-height: 1.5;
+  background-color: #ecf0f1;
+
+  font-family: "Courier New", "DFKai-SB", Courier, monospace;
+}
+
+.bookstore_img {
+  width: 100%;
+  max-width: 100%;
+  display: block;
+}
+
+.bookstore {
+  border-radius: 0.25rem;
+  text-decoration: none;
+  font-weight: 400;
+  transition: 0.15s ease;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  position: relative; /* 確保遮罩只影響圖片 */
+}
+
+.bookstore-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.bookstore-image img {
+  transition: all 0.3s ease;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.bookstore-image:hover img {
+  opacity: 0.7; /* 使圖片變暗 */
+}
+
+.bookstore-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 1); /* 遮罩的顏色和透明度 */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.bookstore-image:hover::before {
+  opacity: 1; /* 顯示遮罩 */
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.responsive-container {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header {
+  border-bottom: 1px solid #e1dfdf;
+  min-height: 60px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.header-content {
+  display: flex;
+  width: 100%;
+  max-width: 200px;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-navigation {
+  display: flex;
+  align-items: center;
+}
+.header-navigation a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.link-button {
+  display: flex;
+  align-items: center;
+  background-color: #000;
+  border-radius: 0.375rem;
+  padding: 0.5em 1.25em;
+  color: #fff;
+}
+.link-button i {
+  font-size: 1.25rem;
+  margin-left: 0.5rem;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+main {
+  padding-top: 2rem;
+  padding-bottom: 6rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.grid-column {
+  display: flex;
+  flex-direction: column;
+}
+.grid-column > * + * {
+  margin-top: 2rem;
+}
+
+.bookstore {
+  border-radius: 0.25rem;
+  text-decoration: none;
+  font-weight: 400;
+  transition: 0.15s ease;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+.bookstore:hover,
+.bookstore:focus {
+  outline: none;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+.bookstore:hover .bookstore-content,
+.bookstore:focus .bookstore-content {
+  border-color: transparent;
+}
+
+.bookstore-image {
+  border-radius: 0.25rem 0.25rem 0 0;
+  overflow: hidden;
+}
+
+.bookstore-content {
+  padding: 1rem;
+  border-left: 1px solid #dedede;
+  border-right: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
+  border-radius: 0 0 0.25rem 0.25rem;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.15s ease;
+  background-color: #fff;
+}
+
+.bookstore-action {
+  color: #000;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.25rem;
+  font-size: 1.25rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+.bookstore-action:hover {
+  background-color: #ebebeb;
+}
+
+.bookstore-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.bookstore-title {
+  color: #000;
+  font-size: 1.125rem;
+  line-height: 1.25;
+  font-weight: bold;
+}
+
+.bookstore-price {
+  color: #000;
+  margin-top: 0.25rem;
+}
+
+.credits {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin-top: 10rem;
+  color: #777;
+  font-size: 0.875rem;
+}
+.credits a {
+  display: block;
+}
+
+@media all and (max-width: 600px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+  }
+  .grid-column > * + * {
+    margin-top: 1.5rem;
+  }
+} /*# sourceMappingURL=bookstore.css.map */
+
+.bookstore-bon {
+  outline: 0;
+  border: 0;
+  background: none;
+  border: 1px solid #d9d9d9;
+  padding: 8px 0px;
+  margin-bottom: 30px;
+  color: #515151;
+  text-transform: uppercase;
+  width: 125px;
+  font-family: inherit;
+  margin-right: 5px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+bookstore-bon:hover {
+  border: 1px solid #5e452fc5;
+  color: #5e452fc5;
+  cursor: pointer;
+} /*# sourceMappingURL=product.css.map */
+
+.bookstore_bon {
+  outline: 0;
+  border: 0;
+  background: none;
+  border: 2px solid #d9d9d9;
+  padding: 0.2em 0px;
+  color: #515151;
+  text-transform: uppercase;
+  width: 125px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: inline-block;
+}
+.bookstore_bon:hover {
+  border: 2px solid #4c4438;
+  color: #4c4438;
+  cursor: pointer;
+} /*# sourceMappingURL=product.css.map */
+
+/* Styles for wrapping the search box */
+
+.custom-search-bar * {
+  box-sizing: border-box;
+}
+
+.custom-search-bar {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 30em;
+}
+
+.custom-search-bar .custom-search-bar_input,
+.custom-search-bar .search-btn,
+.custom-search-bar .search-btn:before,
+.custom-search-bar .search-btn:after {
+  transition: all 0.25s ease-out;
+}
+
+.custom-search-bar .custom-search-bar_input,
+.custom-search-bar .search-btn {
+  width: 3em;
+  height: 3em;
+}
+
+.custom-search-bar .custom-search-bar_input:invalid:not(:focus),
+.custom-search-bar .search-btn {
+  cursor: pointer;
+}
+
+.custom-search-bar .custom-search-bar_input {
+  background: transparent;
+  border-radius: 1.5em;
+  box-shadow: 0 0 0 0.4em #171717 inset;
+  transform: translate(0.5em, 0.5em) scale(0.5);
+  transform-origin: 100% 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.custom-search-bar .custom-search-bar_input::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+.custom-search-bar .custom-search-bar_input:focus,
+.custom-search-bar .custom-search-bar_input:valid {
+  width: 23em; /* 聚焦時的寬度 */
+  border-radius: 0.375em 0 0 0.375em;
+  box-shadow: 0 0 0 0.1em #d9d9d9 inset;
+  transform: scale(1);
+}
+
+.custom-search-bar .search-btn {
+  background: #171717;
+  border-radius: 0 0.75em 0.75em 0 / 0 1.5em 1.5em 0;
+  padding: 0.75em;
+  position: relative;
+  transform: translate(0.25em, 0.25em) rotate(45deg) scale(0.25, 0.125);
+  transform-origin: 0 50%;
+}
+
+.custom-search-bar .search-btn:before,
+.custom-search-bar .search-btn:after {
+  content: "";
+  display: block;
+  opacity: 0;
+  position: absolute;
+}
+
+.custom-search-bar .search-btn:before {
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.2em #f1f1f1 inset;
+  top: 0.75em;
+  left: 0.75em;
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.custom-search-bar .search-btn:after {
+  background: #f1f1f1;
+  border-radius: 0 0.25em 0.25em 0;
+  top: 51%;
+  left: 51%;
+  width: 0.75em;
+  height: 0.25em;
+  transform: translate(0.2em, 0) rotate(45deg);
+  transform-origin: 0 50%;
+}
+
+.custom-search-bar {
+  margin-left: auto; /* 將搜尋欄推到容器的最右邊 */
+  margin-right: 0;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  max-width: 100%; /* 保持搜尋欄寬度 */
+  display: flex;
+  justify-content: flex-end; /* 在搜尋欄內將內容靠右 */
+}
+
+/* Active state */
+.custom-search-bar .custom-search-bar_input:focus + .search-btn,
+.custom-search-bar .custom-search-bar_input:valid + .search-btn {
+  background: #312c2d !important;
+  transform: scale(1);
+}
+
+.custom-search-bar .custom-search-bar_input:focus + .search-btn:before,
+.custom-search-bar .custom-search-bar_input:focus + .search-btn:after,
+.custom-search-bar .custom-search-bar_input:valid + .search-btn:before,
+.custom-search-bar .custom-search-bar_input:valid + .search-btn:after {
+  opacity: 1;
+}
+
+.custom-search-bar .custom-search-bar_input:focus + .search-btn:hover,
+.custom-search-bar .custom-search-bar_input:valid + .search-btn:hover,
+.custom-search-bar
+  .custom-search-bar_input:valid:not(:focus)
+  + .search-btn:focus {
+  background: #310c0cc2;
+}
+
+.custom-search-bar .custom-search-bar_input:focus + .search-btn:active,
+.custom-search-bar .custom-search-bar_input:valid + .search-btn:active {
+  transform: translateY(1px);
+}
+
+.pagination-container-wrapper {
+  position: relative;
+  height: 9em;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination-container-wrapper .pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination-container-wrapper .pagination {
+  position: relative;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+  border-radius: 2px;
+}
+.pagination-container-wrapper .pagination li {
+  list-style-type: none;
+  display: inline-block;
+}
+.pagination-container-wrapper .pagination li a {
+  position: relative;
+  padding: 20px 25px;
+  text-decoration: none;
+  color: #201616;
+  font-weight: 500;
+}
+.pagination-container-wrapper .pagination li a:hover,
+.pagination-container-wrapper .pagination li.active a {
+  background: rgba(255, 255, 255, 0.2);
+}

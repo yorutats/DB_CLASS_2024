@@ -1,0 +1,46 @@
+{% extends "backstage.html" %}
+{% block head %}
+{{ super() }}
+
+{% endblock head %}
+
+{% block title %}BookStore{% endblock title%}
+
+{% block content%}
+
+
+<br/>
+<div class="container-xl">
+  <br/>
+  <form method="post" enctype=multipart/form-data action={{ url_for('manager.editSupplier') }}>
+    <table class="table table-bordered">
+      <tr>
+        <th>供應商編號</th>
+        <td><input class="form-control" type="text" value="{{ data.供應商編號 }}" name="sId" readonly required class="id_input"></td>
+      </tr>
+      <tr>
+        <th>供應商名稱</th>
+        <td><input class="form-control" type="text" value="{{ data.供應商名稱 }}" name="sName" required class="id_input"></td>
+      </tr>
+      <tr>
+        <th>連絡電話</th>
+        <td><input class="form-control" type="text" value="{{ data.連絡電話 }}" name="phone" required></td>
+      </tr>
+      <tr>
+        <th>評分</th>
+        <td><input class="form-control" type="text" value="{{ data.評分 }}" name="rating" required></td>
+      </tr>
+    </table>
+    <center>
+      <div class="option">
+        <button class="btn btn-outline-success" type="submit">確定修改</button> 
+        <a href="{{ url_for('manager.supplierManager') }}"><button class="btn btn-outline-danger">回供應商管理</button></a>
+      </div>
+    </center>
+
+  </form>
+</div>
+
+
+
+{% endblock content%}

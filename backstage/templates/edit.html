@@ -7,49 +7,97 @@
 {% block title %}BookStore{% endblock title%}
 
 {% block content%}
+<style>
+  html,
+  body {
+    height: auto;
+    overflow: auto;
+    background-color: #ecf0f1;
+  }
+
+  table th,
+  table td {
+    text-align: center;
+    vertical-align: middle;
+  }
 
 
-<br/>
+
+  .btn-danger {
+    background-color: #ac2424;
+    /* 自定義的藍色 */
+    border-color: #ac2424;
+    color: #fff;
+    /* 確保文字顏色為白色 */
+  }
+
+
+  .btn-danger:hover {
+    background-color: #6d2525;
+    /* 深藍色 */
+    border-color: #6d2525;
+  }
+
+  .btn-outline-success {
+    background-color: #285a5e;
+    /* 自定義的綠色 */
+    border-color: #285a5e;
+    color: #fff;
+    /* 確保文字顏色為白色 */
+  }
+
+  .btn-outline-success:hover {
+    background-color: #1b4447;
+    /* 深綠色 */
+    border-color: #1b4447;
+  }
+</style>
+
+<br />
 <div class="container-xl">
-  <br/>
+  <br />
   <form method="post" enctype=multipart/form-data action={{ url_for('manager.edit') }}>
     <table class="table table-bordered">
       <tr>
-        <th>商品編號</th>
+        <th>禽類ID</th>
         <td><input class="form-control" type="text" value="{{ data.商品編號 }}" name="pid" readonly class="id_input"></td>
       </tr>
       <tr>
-        <th>商品名稱</th>
+        <th>品種</th>
         <td><input class="form-control" type="text" value="{{ data.商品名稱 }}" name="pname" required></td>
       </tr>
       <tr>
-        <th>單價</th>
+        <th>價格</th>
         <td><input class="form-control" type="text" value="{{ data.單價 }}" name="price" required></td>
       </tr>
       <tr>
+        <th>數量</th>
+        <td><input class="form-control" type="text" value="{{ data.單價 }}" name="price" required></td>
+      </tr>
+      <!-- <tr>
         <th>類別</th>
         <td>
           <select class="form-control" name="category">
             {% if data.類別 == 'CD' %}
-              <option value="BOOK">BOOK</option>
-              <option value="DVD">DVD</option>
-              <option value="CD" selected>CD</option>
+            <option value="BOOK">BOOK</option>
+            <option value="DVD">DVD</option>
+            <option value="CD" selected>CD</option>
             {% elif data.類別 == 'DVD' %}
-              <option value="BOOK">BOOK</option>
-              <option value="DVD" selected>DVD</option>
-              <option value="CD">CD</option>
+            <option value="BOOK">BOOK</option>
+            <option value="DVD" selected>DVD</option>
+            <option value="CD">CD</option>
             {% else %}
-              <option value="BOOK" selected>BOOK</option>
-              <option value="DVD">DVD</option>
-              <option value="CD">CD</option>
+            <option value="BOOK" selected>BOOK</option>
+            <option value="DVD">DVD</option>
+            <option value="CD">CD</option>
             {% endif %}
-            
-        </select>
-      </tr>
+
+          </select>
+      </tr> -->
       <tr>
-        <th>商品敘述</th>
+        <th>種類描述</th>
         <td>
-          <textarea class="form-control" name="description">{{ data.商品敘述 }}</textarea>
+          <textarea class="form-control" name="description" style="height: 20em">{{ data.商品敘述 }}</textarea>
         </td>
       </tr>
       <!-- <tr>
@@ -61,8 +109,8 @@
     </table>
     <center>
       <div class="option">
-        <button class="btn btn-outline-success" type="submit">確定修改</button> 
-        <a href="{{ url_for('manager.productManager') }}"><button class="btn btn-outline-danger">回商品管理</button></a>
+        <button class="btn btn-danger" type="submit">確定修改</button>
+        <a href="{{ url_for('manager.productManager') }}"><button class="btn btn-outline-success">回商品管理</button></a>
       </div>
     </center>
 

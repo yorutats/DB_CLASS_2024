@@ -1,0 +1,78 @@
+.nav_container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
+}
+
+body {
+  font-family: "Courier New", "DFKai-SB", Courier, monospace;
+}
+
+#logo {
+  float: left;
+  font-size: 1.5em;
+}
+
+nav {
+  float: right;
+  background-color: #fff;
+}
+
+.nav-links {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.nav-links li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.nav-links li a:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 50px 0;
+  text-align: center;
+}
+
+.index_btn,
+.index_btn_works {
+  display: inline-block; /* 保持行內區塊顯示 */
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  background-color: transparent;
+  color: #ffffff;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin: 1em;
+  text-decoration: none; /* 移除底線 */
+  width: 100%;
+
+  font-family: "Courier New", "DFKai-SB", Courier, monospace;
+}
+
+.index_btn:hover,
+.index_btn_works:hover {
+  background: #ffffff;
+  color: #000000;
+}

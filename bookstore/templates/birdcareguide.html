@@ -1,0 +1,17 @@
+{% extends "frontstage.html" %}
+{% block title %}護理指南{% endblock %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+{% block content %}
+<h1>護理指南</h1>
+
+<div>
+  <p><strong>飼養說明：</strong> {{ bird['護理指南'] }}</p>
+  {% if bird.get('影片') %}
+  <p><strong>護理影片：</strong> <a href="{{ bird['影片'] }}" target="_blank">觀看影片</a></p>
+  {% endif %}
+
+</div>
+
+<a href="{{ url_for('bookstore.bookstore', pid=request.args.get('pid')) }}">返回商品頁</a>
+{% endblock %}

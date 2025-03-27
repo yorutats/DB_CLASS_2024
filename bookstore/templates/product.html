@@ -1,48 +1,69 @@
 {% extends "frontstage.html" %}
 {% block head %}
 {{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/product.css') }}" />
+<script>
+  // 定義所有鳥類圖片路徑
+  const birdImages = [
+    "../../static/img/birds/bird1.jpg",
+    "../../static/img/birds/bird2.jpg",
+    "../../static/img/birds/bird3.jpg",
+    "../../static/img/birds/bird4.jpg",
+    "../../static/img/birds/bird5.jpg"
+    // 添加更多圖片路徑
+  ];
+
+  // 獲取當前的商品編號
+  function getImageForProduct(productId) {
+    const index = productId % birdImages.length;
+    return birdImages[index]; // 基於商品編號選擇圖片
+  }
+</script>
 {% endblock head %}
 
-{% block title %}BookStore{% endblock title%}
+{% block title %}BookStore{% endblock title %}
 
 {% block content %}
+<div class="card">
+  <!-- 導覽按鈕 -->
+  <nav class="prodovt_nav">
+    <a href="{{ url_for('bookstore.bookstore') }}">
+      <svg class="arrow" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve"
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <polygon points="352,115.4 331.3,96 160,256 331.3,416 352,396.7 201.5,256 " stroke="#727272" />
+      </svg>
+      上一頁
+    </a>
+  </nav>
 
-{% set temp = 'img/' + data.商品圖片 %}
-
-<br/>
-<div class="row">
-<div class="card" style="width: 20rem;margin-left:5%">
-  <img src={{ url_for('static', filename = temp  ) }} class="card-img-top">
-  <div class="card-body">
-    <h5 class="card-title">{{ data.商品名稱 }}</h5>
-    <p class="card-text"></p>
+  <!-- 商品圖片 -->
+  <div class="photo">
+    <img id="product-image" alt="{{ data.商品名稱 }}">
   </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"><b>商品類別</b>&nbsp;&nbsp;{{ data.類別 }}</li>
-    <li class="list-group-item"><b>商品單價</b>&nbsp;&nbsp;{{ data.單價 }}</li>
-  </ul>
-  <div class="card-body">
-    <a href="{{ url_for('bookstore.bookstore') }}" class="btn btn-outline-primary">回商品列表</a>
+
+  <!-- 商品描述 -->
+  <div class="description">
+    <h2 style="font-weight: bold;">{{ data.商品名稱 }}</h2>
+    <p>{{ data.商品敘述 }}</p>
+    <div style="display: flex; gap: 10px;">
+
+      <!-- 護理指南按鈕 -->
+      <form action="{{ url_for('bookstore.birdcareguide', pid=data.商品編號) }}" method="get">
+        <button type="submit" class="btn btn-outline-success">護理指南</button>
+      </form>
+
+      <!-- 加入購物車按鈕 -->
+      <form method="post" action="{{ url_for('bookstore.cart') }}">
+        <button class="bookstore_bon" type="submit" value="{{ data.商品編號 }}" name="order">購買</button>
+      </form>
+    </div>
   </div>
 </div>
 
-
-<div class="col-sm-6">
-  <form method="post" action={{ url_for('bookstore.cart') }}>
-<div class="card" style="margin-top:10%">
-  <h5 class="card-header">商品介紹</h5>
-  <div class="card-body">
-    <p class="card-text">
-      {{data.商品敘述}}
-    </p>
-    <button class="btn btn-outline-success" type="submit" value="{{data.商品編號}}" name="pid">加入購物車</a>
-  </div>
-</div>
-</form>
-</div>
-
-
-</div>
-
-
-{% endblock content%}
+<script>
+  // 獲取商品編號
+  const productId = {{ data.商品編號 }};
+  const imageElement = document.getElementById('product-image');
+  imageElement.src = getImageForProduct(productId); // 設置圖片來源
+</script>
+{% endblock content %}

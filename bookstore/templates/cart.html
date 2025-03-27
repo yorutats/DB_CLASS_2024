@@ -1,65 +1,147 @@
 {% extends "frontstage.html" %}
 {% block head %}
 {{ super() }}
+<link rel="stylesheet" href="../../static/css/cart.css" />
 {% endblock head %}
 
 {% block title %}購物車清單{% endblock title%}
 
 {% block content %}
 
+<br />
+
 {% with messages = get_flashed_messages() %}
-{% if messages[0] == 'No permission' %}
-  
+{% if messages %}
 <script language="javascript">
   alert('您沒有使用者的權限喔！');
 </script>
-
 {% endif %}
 {% endwith %}
 
-<br/>
-<div class="container-xl">
-  <br/>
-  <form method="post" action={{ url_for('bookstore.cart') }}>
-    <table class="table table-bordered">
-      <tr>
-        <th><center>商品編號</center></th>
-        <th><center>商品名稱</center></th>
-        <th><center>商品價格</center></th>
-        <th><center>數量</center></th>
-        <th><center>商品操作</center></th>
-      </tr>
-      {% for book in data %}
-      <tr>
-        <td> <center>{{ book.商品編號 }}</center></td>
-        <td> <center>{{ book.商品名稱 }}</center></td>
-        <td> <center>{{ book.商品價格 }}</center></td>
-        <td width="20%">
-          <center>
-            <input class="form-control" type="number" onkeyup="value=value.replace(/[^\d]/g,'')" min="1" value="{{ book.數量 }}" name="{{ book.商品編號 }}">
+<div class="cart-page main container-xl">
+  <h1>Shopping cart</h1>
+  <h2 class="sub-heading">您的所有商品</h2>
 
-          </center>
-        </td>
-        <td>
-          <center>
-            <button class="btn btn-danger" type="submit" value="{{book.商品編號}}" name="delete" onclick="return (confirm('你確定要刪除 \'{{ book.商品名稱 }}\' 嗎？'))">
-              刪除
+  <section class="shopping-cart">
+    <form method="post" action={{ url_for('bookstore.cart') }}>
+      <ol class="ui-list shopping-cart--list" id="shopping-cart--list">
+        {% for book in data %}
+        <li class="_grid shopping-cart--list-item">
+          <div class="_column product-image">
+            <img class="product-image--img" src="../../static/img/sdg.jpg" alt="Item image" />
+          </div>
+          <div class="_column product-info">
+            <h4 class="product-name">{{ book.商品名稱 }}</h4>
+            <p class="product-desc">商品編號：{{ book.商品編號 }}</p>
+            <div class="price product-single-price">${{ book.商品價格 }}</div>
+          </div>
+          <div class="_column product-modifiers" data-product-price="{{ book.商品價格 }}">
+            <div class="quantity-container">
+              <button class="_btn product-subtract" type="button">&minus;</button>
+              <input class="product-qty" type="number" onkeyup="value=value.replace(/[^\d]/g,'')" min="1"
+                value="{{ book.數量 }}" name="{{ book.商品編號 }}">
+              <!-- 修改為 div，顯示數量 -->
+              <button class="_btn product-plus" type="button">&plus;</button>
+            </div>
+            <button class="_btn entypo-trash product-remove" type="submit" value="{{ book.商品編號 }}" name="delete"
+              onclick="return (confirm('你確定要刪除 \'{{ book.商品名稱 }}\' 嗎？'))">
+              Remove
             </button>
-          </center>
-      </td>
-      </tr>
-      {% endfor %}
-    </table>
-    <center>
-      <div class="option">
-        <button class="btn btn-primary" type="submit" value="edit" name="user_edit" >繼續購物</button>
-        <button class="btn btn-success" type="submit" value="edit" name="buy" >直接結帳</button>
-      </div>
-    </center>
+            <div class="price product-total-price">${{ book.商品價格 * book.數量 }}</div>
+          </div>
+        </li>
+        {% endfor %}
+      </ol>
 
 
-  </form>
 
+
+      <footer class="_grid cart-totals">
+        <!-- <div class="_column subtotal" id="subtotalCtr">
+          <div class="cart-totals-key">Subtotal</div>
+          <div class="cart-totals-value">$0.00</div>
+        </div>
+        <div class="_column shipping" id="shippingCtr">
+          <div class="cart-totals-key">Shipping</div>
+          <div class="cart-totals-value">$0.00</div>
+        </div>
+        <div class="_column taxes" id="taxesCtr">
+          <div class="cart-totals-key">Taxes (6%)</div>
+          <div class="cart-totals-value">$0.00</div>
+        </div> -->
+        <div class="_column total" id="totalCtr">
+          <div class="cart-totals-key">Total</div>
+          <div class="cart-totals-value">$0.00</div>
+        </div>
+        <div class="_column checkout">
+          <button class="_btn checkout-btn entypo-forward" type="submit" value="edit" name="buy">Checkout</button>
+        </div>
+      </footer>
+
+      <!-- <center>
+        <div class="option mt-4">
+          <button class="btn btn-primary" type="submit" value="edit" name="user_edit">繼續購物</button>
+        </div>
+      </center> -->
+    </form>
+  </section>
 </div>
 
-{% endblock content%}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 獲取所有加號和減號按鈕
+    document.querySelectorAll('.product-plus').forEach(button => {
+      button.addEventListener('click', function () {
+        let qtyInput = this.previousElementSibling; // 找到顯示數量的 <input>
+        let currentQty = parseInt(qtyInput.value) || 1;
+        qtyInput.value = currentQty + 1; // 更新數量
+
+        updateTotalPrice();
+      });
+    });
+
+    document.querySelectorAll('.product-subtract').forEach(button => {
+      button.addEventListener('click', function () {
+        let qtyInput = this.nextElementSibling; // 找到顯示數量的 <input>
+        let currentQty = parseInt(qtyInput.value) || 1;
+        if (currentQty > 1) {
+          qtyInput.value = currentQty - 1; // 更新數量
+          updateTotalPrice();
+        }
+      });
+    });
+
+    function updateTotalPrice() {
+      let total = 0;
+      document.querySelectorAll('.shopping-cart--list-item').forEach(item => {
+        let price = parseFloat(item.querySelector('.product-single-price').textContent.replace('$', ''));
+        let qty = parseInt(item.querySelector('.product-qty').value);
+        let itemTotal = price * qty;
+        item.querySelector('.product-total-price').textContent = `$${itemTotal.toFixed(2)}`;
+        total += itemTotal;
+      });
+
+      document.querySelector('#totalCtr .cart-totals-value').textContent = `$${total.toFixed(2)}`;
+
+      // 如果有需要，可以更新 subtotal、taxes 和 shipping 等。
+      // document.querySelector('#subtotalCtr .cart-totals-value').textContent = `$${total.toFixed(2)}`;
+
+      // 更新其他計算，例如稅和運費
+      // let taxes = total * 0.06; // 假設稅率為 6%
+      // document.querySelector('#taxesCtr .cart-totals-value').textContent = `$${taxes.toFixed(2)}`;
+
+      // let shipping = total >= 100 ? 0 : 10; // 假設滿 $100 免運費，否則運費為 $10
+      // document.querySelector('#shippingCtr .cart-totals-value').textContent = `$${shipping.toFixed(2)}`;
+
+      // let grandTotal = total + taxes + shipping;
+      // document.querySelector('#totalCtr .cart-totals-value').textContent = `$${grandTotal.toFixed(2)}`;
+    }
+
+    // 在頁面加載時立即調用以顯示初始總額
+    updateTotalPrice();
+  });
+</script>
+
+
+
+{% endblock content %}

@@ -3,6 +3,7 @@ from flask import render_template, Blueprint, redirect, request, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from link import *
 from api.sql import *
+import random
 
 api = Blueprint('api', __name__, template_folder='./templates')
 
@@ -59,26 +60,57 @@ def login():
     
     return render_template('login.html')
 
+def get_new_mid(mids):
+    # 提取所有的 MID，從元組中取出第一個值
+    mid_list = [mid[0] for mid in mids]
+    
+    # 找到第一個缺失的 MID
+    for i in range(1, max(mid_list) + 1):
+        if i not in mid_list:
+            return i
+    
+    # 如果沒有缺失，返回下一個可用的 MID
+    return max(mid_list) + 1
+
 @api.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
-        user_account = request.form['account']
+        # check email(account)
+        user_email = request.form['email']
         exist_account = Member.get_all_account()
         account_list = []
         for i in exist_account:
             account_list.append(i[0])
-
-        if(user_account in account_list):
-            flash('Falied!')
+        
+        # check username
+        user_name = request.form['username']
+        exist_username = Member.get_all_username()
+        username_list = []
+        for i in exist_username:
+            username_list.append(i[0])
+        
+        if(user_email in account_list and user_name in username_list):
+            flash('both')
+            return redirect(url_for('api.register'))
+        elif (user_email in account_list):
+            flash('user_email')
+            return redirect(url_for('api.register'))
+        elif (user_name in username_list):
+            flash('user_name')
             return redirect(url_for('api.register'))
         else:
-            input = { 
-                'name': request.form['username'], 
-                'account':user_account, 
+            mids = Member.get_all_mid()
+            mid = get_new_mid(mids)
+            input = {
+                'mid': mid,
+                'name': user_name, 
+                'account':user_email, 
                 'password':request.form['password'], 
-                'identity':request.form['identity'] 
+                'identity':request.form['identity']
             }
             Member.create_member(input)
+            phone_number = "09" + "".join([str(random.randint(0, 9)) for _ in range(8)])
+            Customer.add_customer(mid, user_name, phone_number)
             return redirect(url_for('api.login'))
 
     return render_template('register.html')

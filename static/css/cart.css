@@ -1,0 +1,248 @@
+html,
+body {
+  height: auto;
+  overflow: auto;
+  background-color: #ecf0f1;
+
+  font-family: "Courier New", "DFKai-SB", Courier, monospace;
+}
+.cart-page [class*="entypo-"]:before {
+  font-family: "entypo", sans-serif;
+}
+.cart-page body {
+  background-color: #ecf0f1;
+  font: 300 1.25em/1.4 "DFKai-SB", sans-serif;
+  color: #686868;
+}
+.cart-page h1,
+.cart-page h2,
+.cart-page h3,
+.cart-page h4,
+.cart-page h5,
+.cart-page h6 {
+  font-weight: 400;
+}
+.cart-page h1,
+.cart-page .sub-heading {
+  text-align: center;
+  margin: 0.5rem 0 1rem;
+}
+.cart-page .sub-heading {
+  font-size: 0.75em;
+  font-weight: 300;
+  overflow: auto;
+}
+
+.cart-page ._grid {
+  text-align: justify !important;
+  text-justify: distribute-all-lines;
+  font-size: 0 !important;
+  text-rendering: optimizespeed;
+}
+.cart-page ._grid:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+}
+.cart-page ._column {
+  display: inline-block;
+  vertical-align: top;
+  font-size: medium;
+  text-align: left;
+  text-rendering: optimizeLegibility;
+}
+.cart-page ._btn {
+  display: inline-block;
+  background-color: #bdc3c7;
+  border: none;
+  padding: 0.5em 0.75em;
+  text-align: center;
+  font-weight: 300;
+}
+.cart-page ._btn:hover,
+.cart-page .cart-totals:hover ._btn {
+  background-color: #3498db;
+  color: #ecf0f1;
+}
+
+.cart-page .shopping-cart {
+  width: 90%;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.cart-page .shopping-cart--list-item {
+  border: 1px solid #bdc3c7;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+.cart-page .shopping-cart--list-item:hover,
+.cart-page .shopping-cart--list-item:hover * {
+  border-color: #808e97;
+}
+.cart-page .shopping-cart--list-item > ._column {
+  height: 10em;
+}
+
+.cart-page .product-image {
+  width: 16.663198%;
+  background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7")
+    no-repeat center / cover transparent;
+}
+
+.cart-page .product-info {
+  width: 70.832119%;
+  padding: 0.5rem;
+}
+.cart-page .product-name {
+  font: 300 2.4em/1 "DFKai-SB", sans-serif;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.125em;
+}
+.product-desc {
+  font-family: "DFKai-SB", sans-serif;
+}
+.cart-page .price {
+  line-height: 1;
+  text-align: right;
+}
+.cart-page .product-single-price {
+  margin-top: 2rem;
+  font-size: 2.4em;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.cart-page .product-modifiers {
+  width: 12.496358%;
+  height: 10em;
+
+  text-align: right;
+  border-left: 1px solid #bdc3c7;
+}
+.cart-page .product-subtract,
+.cart-page .product-plus,
+.cart-page .product-qty {
+  width: 33.330557%;
+  background-color: transparent;
+  color: #686868;
+  text-align: center;
+}
+.cart-page .product-qty {
+  padding: 0.35em 0.75em;
+}
+.cart-page .product-remove {
+  font-size: 0.875em;
+  margin-top: 3.35rem;
+  background-color: #b34c41;
+  color: #ecf0f1;
+  width: 100%;
+  height: 2.4em;
+  visibility: hidden;
+}
+.cart-page .product-modifiers:hover .product-remove {
+  visibility: visible;
+}
+.cart-page .product-remove:before {
+  margin-right: 0.5em;
+}
+.cart-page .product-remove:hover {
+  background-color: #b34c41;
+}
+.cart-page .product-total-price {
+  border-top: 1px solid #bdc3c7;
+  color: #95a5a6;
+  font-size: 1.25em;
+  padding: 0.5rem;
+  height: 10em;
+  display: flex; /* 使用 flexbox */
+  justify-content: center; /* 水平置中 */
+  font-family: "Courier New", Courier, monospace;
+}
+.cart-page .shopping-cart--list-item:hover .product-total-price {
+  background-color: #326281;
+  color: #ecf0f1;
+}
+
+.cart-page .cart-totals {
+  border-top: 1px solid #bdc3c7;
+  margin-bottom: 3rem;
+}
+.cart-page .cart-totals ._column {
+  width: 19.984013%;
+  padding: 0.5rem;
+  line-height: 1.2;
+}
+.cart-page .cart-totals ._column:not(:last-of-type) {
+  border-right: 1px solid #bdc3c7;
+}
+.cart-page .cart-totals ._column:first-of-type {
+  padding-left: 0;
+}
+.cart-page .cart-totals-key {
+  font-size: 1.125em;
+  color: #bdc3c7;
+}
+.cart-page .cart-totals ._column:hover .cart-totals-value,
+.cart-page .cart-totals ._column:hover .cart-totals-key {
+  color: #333;
+}
+.cart-page .cart-totals-value {
+  font-size: 2em;
+}
+.cart-page ._column.checkout {
+  text-align: right;
+  padding: 0;
+  margin-top: 1.5em;
+  vertical-align: middle;
+}
+.cart-page .checkout-btn:before {
+  margin-right: 0.5em;
+}
+.cart-page ._btn.checkout-btn:hover {
+  background-color: #326281;
+}
+
+.cart-page .product-remove,
+.cart-page .cart-totals * {
+  transition: all 0.2s ease;
+
+  font-family: "Courier New", Courier, monospace;
+}
+.cart-page .closing {
+  transition: all 0.5s ease;
+  transform: translate3d(0, -100%, 0);
+  opacity: 0;
+}
+
+.quantity-container {
+  display: flex;
+  align-items: center; /* 垂直置中 */
+  gap: 5px; /* 元素之間的間距 */
+}
+
+.quantity-container ._btn:hover {
+  background-color: #2980b9; /* 按鈕 hover 顏色 */
+}
+
+.quantity-container .product-qty {
+  text-align: center; /* 置中 */
+  padding: 5px;
+}
+
+/* 移除 input[type=number] 的上下箭頭 */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* 適用於 Firefox */
+  border: none; /* 移除邊框 */
+  outline: none; /* 移除 focus 狀態下的輪廓線 */
+}
+
+.product-image--img {
+  width: 9em;
+  height: 10em;
+}
